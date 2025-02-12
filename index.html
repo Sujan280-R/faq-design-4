@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Section with Query Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .faq-container {
+            max-width: 90%;
+            width: 600px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #8f1f0e;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .faq-content {
+            max-height: 300px; /* This height controls the visible area of FAQ content */
+            overflow-y: auto; /* Enables vertical scrolling when content exceeds max height */
+            padding-right: 10px; /* Adds space to prevent hiding content behind the scrollbar */
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
+            outline: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .faq-question:hover {
+            background-color: #f1f1f1;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            padding: 0 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .faq-answer.show {
+            max-height: 150px;
+            padding: 10px;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .faq-question.active i {
+            transform: rotate(180deg); /* Rotate the arrow when active */
+        }
+
+        .query-form {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 2%;
+        }
+
+        .query-form h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .query-form input, .query-form textarea {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: none;
+        }
+
+        .query-form button {
+            background-color: #8f1f0e;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 30%;
+        }
+
+        .query-form button:hover {
+            background-color: #cc2d14;
+        }
+
+        .success-message {
+            display: none;
+            color: green;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* Responsive Design for Mobile Devices */
+        @media (max-width: 768px) {
+            .faq-container, .query-form {
+                max-width: 95%;
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .faq-question {
+                font-size: 14px;
+            }
+
+            .faq-answer {
+                font-size: 13px;
+            }
+
+            .query-form {
+                padding: 20px;
+            }
+
+            .query-form h3 {
+                font-size: 18px;
+            }
+
+            .query-form input, .query-form textarea {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            .query-form button {
+                width: 50%;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 18px;
+            }
+
+            .faq-question {
+                font-size: 13px;
+            }
+
+            .faq-answer {
+                font-size: 12px;
+            }
+
+            .query-form {
+                padding: 15px;
+            }
+
+            .query-form h3 {
+                font-size: 16px;
+            }
+
+            .query-form input, .query-form textarea {
+                font-size: 12px;
+                padding: 6px;
+            }
+
+            .query-form button {
+                width: 60%;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FAQ Section -->
+    <div class="faq-container">
+        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+
+        <div class="faq-content">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    Are visitors allowed in the monastery?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Yes, visitors are welcome but must follow specific guidelines. Respectful behavior and modest dress are usually required.</div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    What are the daily routines and activities in the monastery?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Includes prayers, communal meals, and teaching sessions. Activities are aimed at fostering discipline and mindfulness.</div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    How do monks and nuns spend their free time?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Reading, personal meditation, or performing chores. Free time is minimal and often used for personal study.</div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    What meditation practices are taught in the monastery?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Mindfulness, concentration, and loving-kindness meditation. These practices help develop mental clarity and compassion.</div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    What subjects are studied by monks and nuns?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Buddhist philosophy, ethics, logic, and meditation. Education aims to deepen understanding of Buddhist teachings.</div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    What is the role of a monk or nun in the community?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Monks and nuns serve as spiritual guides, teachers, and caretakers of the community, practicing and teaching Buddhist teachings and meditation.</div>
+            </div>
+
+            <!-- FAQ Item 7 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    Are there any requirements to become a monk or nun?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Yes, candidates must be committed to following the monastic code of conduct, engage in a period of training, and often take vows of celibacy and simplicity.</div>
+            </div>
+
+            <!-- FAQ Item 8 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    How long does it take to become a fully ordained monk or nun?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">The process varies but generally takes several years of training, including meditation, study, and living under the guidance of experienced monks or nuns.</div>
+            </div>
+
+            <!-- FAQ Item 9 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    Can visitors participate in meditation sessions?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Yes, many monasteries offer short meditation retreats or sessions for visitors, but advance registration is often required.</div>
+            </div>
+
+            <!-- FAQ Item 10 -->
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleAnswer(this)">
+                    What is the food like in a monastery?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">Meals are typically simple, vegetarian, and offered in silence, with a focus on mindfulness during eating.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Query Submission Form -->
+    <div class="query-form">
+        <h3>Have a Question? Ask Us!</h3>
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="query" rows="4" placeholder="Your Query" required></textarea>
+        <button onclick="submitQuery()">Submit</button>
+        <p class="success-message" id="success-message">Thank you for your query! We will get back to you soon.</p>
+    </div>
+
+    <script>
+        function toggleAnswer(button) {
+            const answer = button.nextElementSibling;
+            button.classList.toggle("active");
+            answer.classList.toggle("show");
+        }
+
+        function submitQuery() {
+            alert("Thank you for your query! We will get back to you soon.");
+        }
+    </script>
+
+</body>
+</html>
